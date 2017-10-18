@@ -5,16 +5,19 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 
 class Chat extends Component {
+
   constructor() {
     super()
     this.state = {
       prevCategory: '',
       currentCategory: '',
-      canSubmit: false
+      canSubmit: false,
+      chatUpdated: false
     }
     this.handleValid = this.handleValid.bind(this)
     this.handleInvalid = this.handleInvalid.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.chatForm = null;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -22,6 +25,11 @@ class Chat extends Component {
       prevCategory: this.state.currentCategory,
       currentCategory: nextProps.match.params.categoryId
     })
+
+    if (nextProps.addSuccess && !this.state.chatUpdated) {
+      this.setState({chatUpdated: true})
+      this.props.getListChat(nextProps.match.params.categoryId)
+    }
   }
 
   componentDidMount() {
@@ -40,6 +48,8 @@ class Chat extends Component {
 
   handleSubmit(data) {
     this.props.addChat(data)
+    this.chatForm.refs.formsy.reset()
+    this.setState({chatUpdated: false})
   }
 
   handleValid() {
@@ -93,7 +103,8 @@ class Chat extends Component {
           onValidSubmit={this.handleSubmit}
           layout={"vertical"}
           onValid={this.handleValid}
-          onInvalid={this.handleInvalid}>
+          onInvalid={this.handleInvalid}
+          ref={(node) => { this.chatForm = node }}>
 
           <Input
             name="parent"
@@ -108,6 +119,7 @@ class Chat extends Component {
                 placeholder="Encoder"
                 name="enc"
                 label="Encoder"
+                value=""
                 required
               />
             </div>
@@ -116,6 +128,7 @@ class Chat extends Component {
                 rows={3}
                 placeholder="Decoder"
                 name="dec"
+                value=""
                 label="Decoder"
                 required
               />
@@ -140,7 +153,11 @@ class Chat extends Component {
 Chat.propTypes = {
   isSuccess: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
-  isLoading: PropTypes.bool.isRequired
+  isLoading: PropTypes.bool.isRequired,
+
+  addSuccess: PropTypes.bool.isRequired,
+  addError: PropTypes.bool.isRequired,
+  addLoading: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = (state) => {
@@ -148,7 +165,11 @@ const mapStateToProps = (state) => {
     chats: state.chats.chats,
     isSuccess: state.chats.chatListSuccess,
     hasError: state.chats.chatListError,
-    isLoading: state.chats.chatListLoading
+    isLoading: state.chats.chatListLoading,
+
+    addSuccess: state.chats.chatAddSuccess,
+    addError: state.chats.chatAddError,
+    addLoading: state.chats.chatAddLoading
   }
 }
 
