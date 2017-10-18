@@ -1,28 +1,28 @@
 import React, {Component} from 'react'
-import {getListChat} from '../actions/chatAction'
+import {Link} from 'react-router-dom'
+import {getListCategory} from '../actions/categoryAction'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 
 class Home extends Component {
 
   componentDidMount() {
-    this.props.getListChat()
+    this.props.getListCategory()
   }
 
   renderData() {
     if (this.props.isSuccess) {
       return(
         <div className="chat-content">
-          {this.props.chats.data.map((item) => (
-            <div className="row chat-item" key={item._id}>
-              <div className="col-md-6 col-xs-6">
-                {item.enc}
-              </div>
-              <div className="col-md-6 col-xs-6">
-                {item.dec}
-              </div>
-            </div>
-          ))}
+          <ul>
+            {this.props.categories.data.map((item) => (
+              <li className="chat-item" key={item._id}>
+                <Link to={"/category/view/"+item._id}>
+                  {item.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       )
     }
@@ -61,16 +61,16 @@ Home.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    chats: state.chats.chats,
-    isSuccess: state.chats.chatListSuccess,
-    hasError: state.chats.chatListError,
-    isLoading: state.chats.chatListLoading
+    categories: state.categories.categories,
+    isSuccess: state.categories.categoryListSuccess,
+    hasError: state.categories.categoryListError,
+    isLoading: state.categories.categoryListLoading
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListChat: () => dispatch(getListChat())
+    getListCategory: () => dispatch(getListCategory())
   }
 }
 
