@@ -3,6 +3,7 @@ import {
 
   CHAT_LIST_URL,
   CHAT_VIEW_URL,
+  CHAT_ADD_URL,
 
   CHAT_LIST_ERROR,
   CHAT_LIST_LOADING,
@@ -11,6 +12,10 @@ import {
   CHAT_VIEW_ERROR,
   CHAT_VIEW_LOADING,
   CHAT_VIEW_SUCCESS,
+
+  CHAT_ADD_ERROR,
+  CHAT_ADD_LOADING,
+  CHAT_ADD_SUCCESS
 } from './constant'
 
 const chatListError = (bool) => {
@@ -138,6 +143,68 @@ export function getViewChat(id) {
     })
     .catch((err) => {
       dispatch(chatViewError(true))
+    })
+  }
+}
+
+const chatAddError = (bool) => {
+  return {
+    type: CHAT_ADD_ERROR,
+    chatAddError: bool
+  }
+}
+
+const chatAddLoading  = (bool) => {
+  return {
+    type: CHAT_ADD_LOADING,
+    chatAddLoading: bool
+  }
+}
+
+const chatAddSuccess = (bool, chat) => {
+  return {
+    type: CHAT_ADD_SUCCESS,
+    chatAddSuccess: bool,
+    chat
+  }
+}
+
+/**
+ * Add chat
+ * @param {Object} data Chat
+ */
+export function addChat(data) {
+  return (dispatch) => {
+    dispatch(chatAddSuccess(false, null))
+    dispatch(chatAddError(false))
+    dispatch(chatAddLoading(true))
+
+    let config = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }
+
+    fetch(BASE_URL + CHAT_ADD_URL, config)
+    .then((response) => {
+      if (!response.ok) {
+        throw Error(response.statusText)
+      }
+      dispatch(chatAddLoading(false))
+      return response
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success) {
+        dispatch(chatAddSuccess(true, data))
+      } else {
+        dispatch(chatAddError(true))
+      }
+    })
+    .catch((err) => {
+      dispatch(chatAddError(true))
     })
   }
 }

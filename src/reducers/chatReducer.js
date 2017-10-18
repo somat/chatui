@@ -6,7 +6,11 @@ import {
 
   CHAT_VIEW_ERROR,
   CHAT_VIEW_LOADING,
-  CHAT_VIEW_SUCCESS
+  CHAT_VIEW_SUCCESS,
+
+  CHAT_ADD_ERROR,
+  CHAT_ADD_LOADING,
+  CHAT_ADD_SUCCESS
 } from '../actions/constant'
 
 const chatListError = (state = false, action) => {
@@ -63,6 +67,33 @@ const chatViewSuccess = (state = false, action) => {
   }
 }
 
+const chatAddError = (state = false, action) => {
+  switch (action.type) {
+    case CHAT_ADD_ERROR:
+      return action.chatAddError
+    default:
+      return state
+  }
+}
+
+const chatAddLoading = (state = false, action) => {
+  switch (action.type) {
+    case CHAT_ADD_LOADING:
+      return action.chatAddLoading
+    default:
+      return state
+  }
+}
+
+const chatAddSuccess = (state = false, action) => {
+  switch (action.type) {
+    case CHAT_ADD_SUCCESS:
+      return action.chatAddSuccess
+    default:
+      return state
+  }
+}
+
 const chats = (state = [], action) => {
   switch (action.type) {
     case CHAT_LIST_SUCCESS:
@@ -89,6 +120,10 @@ const chatReducer = combineReducers({
   chatViewError,
   chatViewLoading,
   chatViewSuccess,
+
+  chatAddError,
+  chatAddLoading,
+  chatAddSuccess,
 
   chats,
   chat

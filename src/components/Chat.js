@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import {Form, Textarea} from 'formsy-react-components';
-import {getListChat} from '../actions/chatAction'
+import {Form, Input, Textarea} from 'formsy-react-components';
+import {getListChat, addChat} from '../actions/chatAction'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -39,7 +39,7 @@ class Chat extends Component {
   }
 
   handleSubmit(data) {
-    this.props.companyAdd(data)
+    this.props.addChat(data)
   }
 
   handleValid() {
@@ -95,6 +95,12 @@ class Chat extends Component {
           onValid={this.handleValid}
           onInvalid={this.handleInvalid}>
 
+          <Input
+            name="parent"
+            value={this.state.currentCategory}
+            type="hidden"
+          />
+
           <div className="row">
             <div className="col-md-6 col-xs-6">
               <Textarea
@@ -148,7 +154,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListChat: (parent) => dispatch(getListChat(parent))
+    getListChat: (parent) => dispatch(getListChat(parent)),
+    addChat: (data) => dispatch(addChat(data))
   }
 }
 

@@ -3,6 +3,7 @@ export const BASE_URL = 'http://localhost:5000/'
 // Chat
 export const CHAT_LIST_URL = 'chat/sub'
 export const CHAT_VIEW_URL = 'chat/view'
+export const CHAT_ADD_URL = 'chat/add'
 
 export const CHAT_LIST_ERROR = 'CHAT_LIST_ERROR'
 export const CHAT_LIST_LOADING = 'CHAT_LIST_LOADING'
@@ -11,6 +12,10 @@ export const CHAT_LIST_SUCCESS = 'CHAT_LIST_SUCCESS'
 export const CHAT_VIEW_ERROR = 'CHAT_VIEW_ERROR'
 export const CHAT_VIEW_LOADING = 'CHAT_VIEW_LOADING'
 export const CHAT_VIEW_SUCCESS = 'CHAT_VIEW_SUCCESS'
+
+export const CHAT_ADD_ERROR = 'CHAT_ADD_ERROR'
+export const CHAT_ADD_LOADING = 'CHAT_ADD_LOADING'
+export const CHAT_ADD_SUCCESS = 'CHAT_ADD_SUCCESS'
 
 // Category
 export const CATEGORY_LIST_URL = 'category/list'
