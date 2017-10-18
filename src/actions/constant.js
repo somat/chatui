@@ -1,7 +1,7 @@
 export const BASE_URL = 'http://localhost:5000/'
 
 // Chat
-export const CHAT_LIST_URL = 'chat/list'
+export const CHAT_LIST_URL = 'chat/sub'
 export const CHAT_VIEW_URL = 'chat/view'
 
 export const CHAT_LIST_ERROR = 'CHAT_LIST_ERROR'

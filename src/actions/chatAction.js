@@ -39,7 +39,7 @@ const chatListSuccess = (bool, chats) => {
  * Get chat list given its parent
  * @return {Chats} Chat array
  */
-export function getListChat() {
+export function getListChat(parent) {
   return (dispatch) => {
     dispatch(chatListSuccess(false, null))
     dispatch(chatListError(false))
@@ -49,7 +49,10 @@ export function getListChat() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      body: JSON.stringify({
+        parent: parent
+      })
     }
 
     fetch(BASE_URL + CHAT_LIST_URL, config)

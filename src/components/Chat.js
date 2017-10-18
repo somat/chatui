@@ -8,6 +8,8 @@ class Chat extends Component {
   constructor() {
     super()
     this.state = {
+      prevCategory: '',
+      currentCategory: '',
       canSubmit: false
     }
     this.handleValid = this.handleValid.bind(this)
@@ -15,8 +17,25 @@ class Chat extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      prevCategory: this.state.currentCategory,
+      currentCategory: nextProps.match.params.categoryId
+    })
+  }
+
   componentDidMount() {
-    this.props.getListChat()
+    this.setState({
+      currentCategory: this.props.match.params.categoryId,
+      prevCategory: this.props.match.params.categoryId
+    })
+    this.props.getListChat(this.props.match.params.categoryId)
+  }
+
+  componentDidUpdate() {
+    if (this.state.currentCategory !== this.state.prevCategory) {
+      this.props.getListChat(this.props.match.params.categoryId)
+    }
   }
 
   handleSubmit(data) {
@@ -129,7 +148,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getListChat: () => dispatch(getListChat())
+    getListChat: (parent) => dispatch(getListChat(parent))
   }
 }
 
